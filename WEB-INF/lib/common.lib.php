@@ -82,21 +82,19 @@ function import($class_name) {
 	}
 
 	function &getConnection() {
-        if (!isset($GLOBALS["_MDB2_CONNECTION"])) {
-
+      if (!isset($GLOBALS["_MDB2_CONNECTION"])) {
         	require_once(dirname(__FILE__).'/TtDb.class.php');
-
         	$mdb2 = TtDb::connect(DSN);
 			if (is_a($mdb2, 'PEAR_Error')) {
     			die($mdb2->getMessage());
 			}
 
 			$mdb2->setFetchMode(MDB2_FETCHMODE_ASSOC);
-			
-   			$GLOBALS["_MDB2_CONNECTION"] = $mdb2;
-    	}
-      	return $GLOBALS["_MDB2_CONNECTION"];
-	}
+
+      $GLOBALS["_MDB2_CONNECTION"] = $mdb2;
+    }
+    return $GLOBALS["_MDB2_CONNECTION"];
+  }
 
 
 // time_to_decimal converts a time string such as 1:15 to its decimal representation such as 1.25 or 1,25.
@@ -144,7 +142,7 @@ function ttValidString($val, $emptyValid = false, $maxChars = 0)
   if ($maxChars > 0 && mb_strlen($val, 'UTF-8') > $maxChars) // 4 byte emojis are counted as 1 each, newlines as 2.
     return false;
 
-  return true;    
+  return true;
 }
 
 // ttValidCss is used to check user input for custom css.
@@ -229,16 +227,16 @@ function ttValidEmail($val, $emptyValid = false)
   $val = trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
-  	
+
   // String must not be XSS evil (to insert JavaScript).
   if (stristr($val, '<script>') || stristr($val, '<script '))
     return false;
-    
+
   // Validate a single email address. TODO: improve for compliancy with RFC.
   if (!preg_match("/^[_a-zA-Z\d\'-\.]+@([_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+)$/", $val))
     return false;
-  
-  return true;    
+
+  return true;
 }
 
 // ttValidEmailList is used to check user input to validate an email string.
@@ -247,15 +245,15 @@ function ttValidEmailList($val, $emptyValid = false)
   $val = trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
-  	
+
   // String must not be XSS evil (to insert JavaScript).
   if (stristr($val, '<script>') || stristr($val, '<script '))
     return false;
-    
+
   // Validates a list of email addresses separated by a comma with optional spaces.
   if (!preg_match("/^[_a-zA-Z\d\'-\.]+@([_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+)(,\s*[_a-zA-Z\d\'-\.]+@([_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+))*$/", $val))
     return false;
-    
+
   return true;
 }
 
@@ -265,14 +263,14 @@ function ttValidFloat($val, $emptyValid = false)
   $val = trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
-    
+
   global $user;
   $decimal = $user->getDecimalMark();
-	
+
   if (!preg_match('/^-?[0-9'.$decimal.']+$/', $val))
     return false;
-    
-  return true;    
+
+  return true;
 }
 
 // ttValidStatus is used to check user input to validate a status value.
@@ -340,8 +338,8 @@ function ttValidDate($val)
         $date_parts[2] = substr($date_parts[2], 0, 4); // Ignore localized day of week.
         return checkdate($date_parts[1], $date_parts[0], $date_parts[2]);
       }
-      break; 
-    
+      break;
+
   }
   return false;
 }
@@ -379,7 +377,7 @@ function ttValidInteger($val, $emptyValid = false)
   $val = trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
-    
+
   if (!preg_match('/^[0-9]+$/', $val))
     return false;
 
@@ -432,7 +430,7 @@ function ttValidCronSpec($val)
 
   // But this works.
   $regexp = '/^'.$fields_re.'$/';
-	
+
   if (!preg_match($regexp, $val))
     return false;
 

@@ -10,6 +10,8 @@ class ttRegistrator {
   var $user_name = null;  // User name.
   var $login = null;      // User login.
   var $password = null;   // User password.
+  var $password1 = null;  // Password from registration form.
+  var $password2 = null;  // Password confirmation from registration form.
   var $email = null;      // User email.
   var $group_name = null; // Group name.
   var $currency = null;   // Currency.
