@@ -25,6 +25,11 @@
 	class PieChart extends Chart {
 		protected $pieCenterX;
 		protected $pieCenterY;
+		protected $pieWidth;
+		protected $pieHeight;
+		protected $pieDepth;
+		protected $total;
+		protected $percent;
 
 		/**
 		 * Constructor of a pie chart.
@@ -167,7 +172,7 @@
 
 				if ($angle2 - $angle1 <= 0)
 					$angle2 = $angle1 + 1;
-				imagefilledarc($img, $this->pieCenterX, $cy, $this->pieWidth, $this->pieHeight, $angle1, $angle2, $color->getColor($img), $mode);
+				imagefilledarc($img, (int) round($this->pieCenterX), (int) round($cy), (int) $this->pieWidth, (int) $this->pieHeight, $angle1, $angle2, $color->getColor($img), $mode);
 
 				$angle1 = $angle2;
 

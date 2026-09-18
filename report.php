@@ -55,7 +55,8 @@ if ($user->isPluginEnabled('cf')) {
 $form = new Form('reportViewForm');
 
 // Report settings are stored in session bean before we get here from reports.php.
-$bean = new ActionForm('reportBean', new Form('reportForm'), $request);
+$report_form = new Form('reportForm');
+$bean = new ActionForm('reportBean', $report_form, $request);
 // If we are in post, load the bean from session, as the constructor does it only in get.
 if ($request->isPost()) $bean->loadBean();
 

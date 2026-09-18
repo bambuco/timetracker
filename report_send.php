@@ -47,7 +47,8 @@ if ($request->isPost()) {
     $uc->setValue(SYSC_LAST_REPORT_CC, $cl_cc);
 
     // Obtain session bean with report attributes.
-    $bean = new ActionForm('reportBean', new Form('reportForm'));
+    $report_form = new Form('reportForm');
+    $bean = new ActionForm('reportBean', $report_form);
     $options = ttReportHelper::getReportOptions($bean);
 
     // Prepare report body.

@@ -234,6 +234,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('group_dropdown', count($groups) > 1);
+$smarty->assign('can_delete', $user->can('delete_group'));
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
 $smarty->assign('onload', 'onLoad="handlePluginCheckboxes();"');
 $smarty->assign('title', $i18n->get('title.edit_group'));

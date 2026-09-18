@@ -111,6 +111,9 @@
 		protected $backGroundColor;
 		protected $textColor;
 
+		protected $width;
+		protected $height;
+
 		/**
 		 * Constructor of Plot.
 		 *

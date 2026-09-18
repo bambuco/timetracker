@@ -33,7 +33,8 @@ if ($user->isPluginEnabled('cf')) {
 }
 
 // Report settings are stored in session bean before we get here.
-$bean = new ActionForm('reportBean', new Form('reportForm'), $request);
+$report_form = new Form('reportForm');
+$bean = new ActionForm('reportBean', $report_form, $request);
 
 $config = new ttConfigHelper($user->getConfig());
 $show_note_column = $bean->getAttribute('chnote') && !$config->getDefinedValue('report_note_on_separate_row');

@@ -23,7 +23,8 @@ if ($user->isPluginEnabled('cf')) {
 $show_cost_per_hour = $user->getConfigOption('report_cost_per_hour') && ($user->can('manage_invoices') || $user->isClient());
 
 // Report settings are stored in session bean before we get here.
-$bean = new ActionForm('reportBean', new Form('reportForm'), $request);
+$report_form = new Form('reportForm');
+$bean = new ActionForm('reportBean', $report_form, $request);
 
 // This file handles 2 types of export to a file:
 // 1) xml

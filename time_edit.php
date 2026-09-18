@@ -116,7 +116,7 @@ if ($request->isPost()) {
   $cl_paid = $time_rec['paid'];
 
   // Add an info message to the form if we are editing an uncompleted record.
-  if (strlen($cl_start) > 0 && $cl_start == $cl_finish && $cl_duration == '0:00') {
+  if ($cl_start && $cl_start == $cl_finish && $cl_duration == '0:00') {
     $cl_finish = null;
     $cl_duration = null;
     $msg->add($i18n->get('form.time_edit.uncompleted'));
@@ -255,7 +255,7 @@ if ($user->isPluginEnabled('tp')){
 }
 
 // Note control.
-$form->addInput(array('type'=>'textarea','name'=>'note','value'=>$cl_note));
+$form->addInput(array('type'=>'textarea','name'=>'note','value'=>$cl_note,'style'=>'resize: both;'));
 
 // Hidden control for record id.
 $form->addInput(array('type'=>'hidden','name'=>'id','value'=>$cl_id));

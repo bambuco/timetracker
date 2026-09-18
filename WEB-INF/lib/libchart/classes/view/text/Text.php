@@ -1,12 +1,12 @@
 <?php
 	/* Libchart - PHP chart library
 	 * Copyright (C) 2005-2008 Jean-Marc Trémeaux (jm.tremeaux at gmail.com)
-	 * 
+	 *
 	 * This program is free software: you can redistribute it and/or modify
 	 * it under the terms of the GNU General Public License as published by
 	 * the Free Software Foundation, either version 3 of the License, or
 	 * (at your option) any later version.
-	 * 
+	 *
 	 * This program is distributed in the hope that it will be useful,
 	 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 	 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -14,9 +14,9 @@
 	 *
 	 * You should have received a copy of the GNU General Public License
 	 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-	 * 
+	 *
 	 */
-	
+
 	/**
 	 * Text drawing helper
 	 *
@@ -30,12 +30,15 @@
 		public $VERTICAL_CENTER_ALIGN = 16;
 		public $VERTICAL_BOTTOM_ALIGN = 32;
 
+		public $fontCondensed;
+		public $fontCondensedBold;
+
 		/**
 		 * Creates a new text drawing helper.
 		 */
 		public function __construct() {
 			$baseDir = dirname(__FILE__) . "/../../../";
-		
+
 			// Free low-res fonts based on Bitstream Vera <http://dejavu.sourceforge.net/wiki/>
 			$this->fontCondensed = $baseDir . "fonts/DejaVuSansCondensed.ttf";
 			$this->fontCondensedBold = $baseDir . "fonts/DejaVuSansCondensed-Bold.ttf";
@@ -87,9 +90,9 @@
 				$py += $textHeight;
 			}
 
-			imagettftext($img, $fontSize, $angle, $px, $py, $color->getColor($img), $fontFileName, $text);
+			imagettftext($img, $fontSize, $angle, (int) round($px), (int) round($py), $color->getColor($img), $fontFileName, $text);
 		}
-		
+
 		/**
 		 * Print text centered horizontally on the image.
 		 *
@@ -123,7 +126,6 @@
 
 			$angle = -45;
 
-			imagettftext($img, $fontSize, $angle, $px, $py, $color->getColor($img), $fontFileName, $text);
+			imagettftext($img, $fontSize, $angle, (int) round($px), (int) round($py), $color->getColor($img), $fontFileName, $text);
 		}
 	}
-?>
