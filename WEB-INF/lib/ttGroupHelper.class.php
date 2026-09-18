@@ -590,6 +590,12 @@ class ttGroupHelper {
     // Empty input is valid.
     if (!$input) return true;
 
+    // Anything that is not an array is invalid. A scalar post such as
+    // "projects=abc" (rather than "projects[]=...") reaches here as a non-empty
+    // string; guard against it explicitly so count() below cannot raise a
+    // TypeError on PHP 8, and so a non-array can never be treated as valid.
+    if (!is_array($input)) return false;
+
     // Input containing duplicates is invalid.
     if (count($input) !== count(array_unique($input))) return false;
 

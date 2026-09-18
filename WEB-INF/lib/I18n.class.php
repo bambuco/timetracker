@@ -35,26 +35,55 @@ class I18n {
   var $keys = array(); // These are our localized strings.
 
   // get - obtains a localized value from $keys array.
+  // Keywords can have separating dots such as in form.login.about, where each
+  // part addresses one more level of nesting in $keys. Walk the array to find
+  // the value. Note that a key with no dots is simply a one word walk.
   function get($key) {
-    $value = '';
-    $pos = strpos($key, '.'); // Keywords can have separating dots such as in form.login.about.
-    if (!($pos === false)) {
-      $words = explode('.', $key);
-      $str = '';
-      foreach ($words as $word) {
-        $str .= "['".$word."']";
-      }
-      eval("\$value = \$this->keys".$str.";");
-    } else {
-      $value = $this->keys[$key];
+    $value = $this->keys;
+    foreach (explode('.', $key) as $word) {
+      if (!is_array($value) || !array_key_exists($word, $value))
+        return null; // No such key. keyExists() relies on this being null.
+      $value = $value[$word];
     }
     return $value;
+  }
+
+  // setKey - assigns a value in the $keys array, creating the nesting levels a
+  // dotted key implies. This is the write side of the notation get() reads.
+  function setKey($key, $value) {
+    $ref = &$this->keys;
+    foreach (explode('.', $key) as $word) {
+      // A shorter key may already hold a string where a longer one now needs
+      // an array, as in "menu" and "menu.login". The longer key wins.
+      if (!is_array($ref)) $ref = array();
+      if (!array_key_exists($word, $ref)) $ref[$word] = array();
+      $ref = &$ref[$word];
+    }
+    $ref = $value;
+    unset($ref); // Break the reference, or the next assignment would follow it.
   }
 
   // get - keyExists determines if a key exists.
   function keyExists($key) {
     $value = $this->get($key);
     return ($value !== null);
+  }
+
+  // unescapeLangValue - removes one level of escaping from a language file value.
+  //
+  // Values for dotted keys in the language files are escaped twice: once for the
+  // PHP parser reading the file, and once more so that the value would survive
+  // being embedded, in single quotes, in the PHP source that load() used to
+  // build and eval(). Only dotted keys went through that eval(), so only dotted
+  // keys carry the second level. See fr, ca, et and it, which between them hold
+  // 72 such values; every other language file has no apostrophes to escape.
+  //
+  // Nothing is eval()ed any more, so the second level is undone here instead.
+  // Normalizing the language files themselves would let this go away, but that
+  // is a change to translation data and belongs in its own commit.
+  function unescapeLangValue($key, $value) {
+    if (strpos($key, '.') === false) return $value; // Never went through eval().
+    return str_replace("\\'", "'", $value);
   }
 
   // load - loads localized strings into $keys array by first going through the default file (en.lang.php)
@@ -72,17 +101,7 @@ class I18n {
       $this->weekdayShortNames = $i18n_weekdays_short;
 
       foreach ($i18n_key_words as $kword=>$value) {
-        $pos = strpos($kword, ".");
-        if (!($pos === false)) {
-          $p = explode(".", $kword);
-          $str = "";
-          foreach ($p as $w) {
-            $str .= "[\"".$w."\"]";
-          }
-          eval("\$this->keys".$str."='".$value."';");
-        } else {
-          $this->keys[$kword] = $value;
-        }
+        $this->setKey($kword, $this->unescapeLangValue($kword, $value));
       }
     }
 
@@ -99,17 +118,7 @@ class I18n {
       $this->weekdayShortNames = $i18n_weekdays_short;
       foreach ($i18n_key_words as $kword=>$value) {
         if (!$value) continue;
-        $pos = strpos($kword, ".");
-        if (!($pos === false)) {
-          $p = explode(".", $kword);
-          $str = "";
-          foreach ($p as $w) {
-             $str .= "[\"".$w."\"]";
-          }
-          eval("\$this->keys".$str."='".$value."';");
-        } else {
-          $this->keys[$kword] = $value;
-        }
+        $this->setKey($kword, $this->unescapeLangValue($kword, $value));
       }
     }
 
@@ -124,21 +133,13 @@ class I18n {
 
         $key = trim($parts[0]);
         $value = trim($parts[1]);
-        // Escape single quotes and backslashes.
-        $value = addcslashes($value, "'\\");
+        // Note: the addcslashes() call that used to be here escaped quotes and
+        // backslashes so that the value would survive being embedded in the PHP
+        // source below. Nothing is embedded in PHP source any more, so escaping
+        // here would leave the backslashes in the string the user sees.
         $value = htmlspecialchars($value);
 
-        $pos = strpos($key, ".");
-        if (!($pos === false)) {
-          $p = explode(".", $key);
-          $str = "";
-          foreach ($p as $w) {
-             $str .= "[\"".$w."\"]";
-          }
-          eval("\$this->keys".$str."='".$value."';");
-        } else {
-          $this->keys[$key] = $value;
-        }
+        $this->setKey($key, $value);
       }
     }
   }

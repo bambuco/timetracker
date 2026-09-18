@@ -197,6 +197,14 @@ function ttValidTranslationLine($val)
   }
 
   $key = trim($parts[0]);
+  // Check the shape of the key before looking it up. A translation key is a
+  // dot-separated set of words, so check for that here and keep this validation
+  // independent of how a lookup behaves for a key that is not one.
+  if (!preg_match('/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$/', $key)) {
+    // Not a well formed key.
+    return false;
+  }
+
   global $i18n;
   if (!$i18n->keyExists($key)) {
     // Key does not exist.
