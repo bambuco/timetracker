@@ -61,6 +61,7 @@ $i18n_key_words = array(
 'error.report' => 'Select report.',
 'error.record' => 'Select record.',
 'error.auth' => 'Incorrect login or password.',
+'error.altcha' => 'Verification failed. Try again.',
 'error.2fa_code' => 'Invalid 2FA code.',
 'error.weak_password' => 'Weak password.',
 'error.user_exists' => 'User with this login already exists.',
@@ -376,6 +377,16 @@ $i18n_key_words = array(
 // Login form. See example at https://timetracker.anuko.com/login.php.
 'form.login.forgot_password' => 'Forgot password?',
 'form.login.about' => 'Anuko <a href="https://www.anuko.com/lp/tt_2.htm" target="_blank">Time Tracker</a> is an open source time tracking system.',
+
+// ALTCHA widget strings (login).
+'altcha.label' => 'I\\\'m not a robot',
+'altcha.verified' => 'Verified',
+'altcha.verifying' => 'Verifying...',
+'altcha.expired' => 'Verification expired. Try again.',
+'altcha.error' => 'Verification failed. Try again.',
+'altcha.wait_alert' => 'Verifying... please wait.',
+'altcha.footer' => 'Protected by <a href="https://altcha.org/" target="_blank">ALTCHA</a>',
+'altcha.aria_link_label' => 'Visit Altcha.org',
 
 // Email subject and body for two-factor authentication.
 'email.2fa_code.subject' => 'Anuko Time Tracker two-factor authentication code',

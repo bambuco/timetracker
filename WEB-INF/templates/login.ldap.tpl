@@ -20,6 +20,12 @@ License: See license.txt *}
     <td colspan="2"><a href ="password_reset.php">{$i18n.form.login.forgot_password}</a></td>
   </tr>
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
+  {if $altcha_widget}
+  <tr>
+    <td colspan="2">{include file="login.altcha.tpl"}</td>
+  </tr>
+  <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
+  {/if}
   <tr>
     <td colspan="2">{$forms.loginForm.btn_login.control}</td>
   </tr>

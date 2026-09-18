@@ -6,6 +6,7 @@ require_once('initialize.php');
 import('form.Form');
 import('ttUser');
 import('ttUserHelper');
+import('ttAltchaHelper');
 
 if ($auth->isPasswordExternal()) {
   header('Location: login.php');
@@ -21,6 +22,9 @@ $form->addInput(array('type'=>'submit','name'=>'btn_submit','value'=>$i18n->get(
 if ($request->isPost()) {
   // Validate user input.
   if (!ttValidString($cl_login)) $err->add($i18n->get('error.field'), $i18n->get('label.login'));
+  if (ttAltchaHelper::isEnabled() && !ttAltchaHelper::validateSolution('password_reset')) {
+    $err->add($i18n->get('error.altcha'));
+  }
 
   if ($err->no()) {
     if (!ttUserHelper::getUserByLogin($cl_login)) {
@@ -104,6 +108,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
+$smarty->assign('altcha_widget', ttAltchaHelper::getWidgetParams('password_reset'));
 $smarty->assign('onload', 'onLoad="document.resetPasswordForm.login.focus()"');
 $smarty->assign('title', $i18n->get('title.reset_password'));
 $smarty->assign('content_page_name', 'password_reset.tpl');

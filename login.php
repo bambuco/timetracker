@@ -7,6 +7,7 @@ import('form.Form');
 import('ttOrgHelper');
 import('ttUser');
 import('ttUserHelper');
+import('ttAltchaHelper');
 
 // Access checks.
 if ($request->isPost()) {
@@ -33,6 +34,9 @@ if ($request->isPost()) {
   // Validate user input.
   if (!ttValidString($cl_login)) $err->add($i18n->get('error.field'), $i18n->get('label.login'));
   if (!ttValidString($cl_password)) $err->add($i18n->get('error.field'), $i18n->get('label.password'));
+  if (ttAltchaHelper::isEnabled() && !ttAltchaHelper::validateSolution('login')) {
+    $err->add($i18n->get('error.altcha'));
+  }
 
   $loginSucceeded = $use2FA = false;
 
@@ -142,6 +146,7 @@ $show_hint = ('ad' == isset($GLOBALS['AUTH_MODULE_PARAMS']['type']) ? $GLOBALS['
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
 $smarty->assign('show_hint', $show_hint);
+$smarty->assign('altcha_widget', ttAltchaHelper::getWidgetParams('login'));
 $smarty->assign('onload', 'onLoad="document.loginForm.'.(!$cl_login?'login':'password').'.focus()"');
 $smarty->assign('about_text', $i18n->get('form.login.about'));
 $smarty->assign('title', $i18n->get('title.login'));

@@ -9,6 +9,12 @@ License: See license.txt *}
     <td class="td-with-input">{$forms.resetPasswordForm.login.control}</td>
   </tr>
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
+  {if $altcha_widget}
+  <tr>
+    <td colspan="2">{include file="login.altcha.tpl"}</td>
+  </tr>
+  <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
+  {/if}
   <tr>
     <td colspan="2">{$forms.resetPasswordForm.btn_submit.control}</td>
   </tr>

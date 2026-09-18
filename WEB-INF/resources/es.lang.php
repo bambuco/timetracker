@@ -72,6 +72,7 @@ $i18n_key_words = array(
 // 'error.report' => 'Select report.',
 // 'error.record' => 'Select record.',
 'error.auth' => 'Usuario o contraseña incorrecta.',
+'error.altcha' => 'Error de verificación. Inténtalo de nuevo.',
 // TODO: translate the following.
 // 'error.2fa_code' => 'Invalid 2FA code.',
 // 'error.weak_password' => 'Weak password.',
@@ -428,6 +429,16 @@ $i18n_key_words = array(
 'form.login.forgot_password' => '¿Olvido su contraseña?',
 // TODO: translate the following.
 // 'form.login.about' => 'Anuko <a href="https://www.anuko.com/lp/tt_2.htm" target="_blank">Time Tracker</a> is an open source time tracking system.',
+
+// ALTCHA widget strings (login).
+'altcha.label' => 'No soy un robot',
+'altcha.verified' => 'Verificado',
+'altcha.verifying' => 'Verificando...',
+'altcha.expired' => 'Verificación expirada. Inténtalo de nuevo.',
+'altcha.error' => 'Error de verificación. Inténtalo de nuevo.',
+'altcha.wait_alert' => 'Verificando... por favor espera.',
+'altcha.footer' => 'Protegido por <a href="https://altcha.org/" target="_blank">ALTCHA</a>',
+'altcha.aria_link_label' => 'Visita Altcha.org',
 
 // Email subject and body for two-factor authentication.
 // TODO: translate the following.

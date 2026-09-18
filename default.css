@@ -108,6 +108,13 @@ div#LoginAboutText {
   margin-right:auto;
 }
 
+/* ALTCHA widget on login form */
+altcha-widget {
+  display: block;
+  margin: .5rem 0;
+  --altcha-max-width: 100%;
+}
+
 /* default domain text div for ldap login */
 #ldapDefaultDomain {
   color: #777777;
