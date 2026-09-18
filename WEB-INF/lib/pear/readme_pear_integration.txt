@@ -2,7 +2,7 @@ PEAR integration notes.
 
 These notes explain how PEAR and its modules were integrated in Anuko Time Tracker project.
 
-PEAR packages can be downloaded from http://pear.php.net/packages.php 
+PEAR packages can be downloaded from http://pear.php.net/packages.php
 (click on the package group, then package name, then Download link).
 For example, for PEAR it will be http://pear.php.net/package/PEAR/download
 
@@ -25,27 +25,11 @@ LICENSE
 and others in your WEB-INF/lib/pear/ folder.
 
 
-DB PACKAGES
+DATABASE ACCESS
 
-NOTE: currently we are trying migrate from the old DB package to a newer MDB2 package.
-This is why we have (temporarily) both of them here.
-When the migration is finished the DB module will be removed.
-
-DB PACKAGE
-- Download DB module from http://pear.php.net/package/DB/download
-- From archive DB-1.7.14RC1.tgz take "DB.php" file and DB folder and put them into WEB-INF/lib/pear
-
-MDB2 PACKAGE
-- Download MDB2 module from http://pear.php.net/package/MDB2/download
-- From archive MDB2-2.5.0b3.tgz take "MDB2.php" file and MDB2 folder and put them into WEB-INF/lib/pear
-
-MDB2_Driver_mysql package
-- Download MDB2_Driver_mysql module from http://pear.php.net/package/MDB2_Driver_mysql/download
-- From archive MDB2_Driver_mysql_1.5.0b3.tgz merge the content of MDB2 folder with your WEB-INF/lib/pear/MDB2
-(a collection of mysql.php files organized in a directory structure).
-
-If you need Time Tracker to work with non mysql data sources install additional MDB2 drivers
-(similarly to MDB2_Driver_mysql).
+As of the mysqli adapter migration, Time Tracker no longer uses PEAR MDB2.
+Database access goes through WEB-INF/lib/TtDb.class.php (mysqli) via getConnection()
+in WEB-INF/lib/common.lib.php. DSN format remains mysqli://user:pass@host/db?charset=utf8mb4.
 
 
 Net_SMTP PACKAGE
@@ -65,7 +49,7 @@ Mail PACKAGE
 - Download Mail module from http://pear.php.net/package/Mail/download
 - From archive Mail-1.2.0.tgz take "Mail.php" file and Mail folder. Put them in WEB-INF/lib/pear folder.
 
-Now we have PEAR, and PEAR DB, PEAR MDB2, PEAR Net_SMTP, PEAR Mail modules installed.
+Now we have PEAR, PEAR Net_SMTP, and PEAR Mail modules installed (for email only).
 
 
 

@@ -837,6 +837,8 @@ class PEAR_Error
     var $message              = '';
     var $userinfo             = '';
     var $backtrace            = null;
+    // Declared to avoid PHP 8.2+ "Creation of dynamic property" deprecation.
+    var $callback             = null;
 
     /**
      * PEAR_Error constructor

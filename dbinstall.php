@@ -98,31 +98,27 @@ if ($request->isGet()) {
     echo('<font color="red">Warning: This app is no longer tested with PHP version: '.phpversion().'.</font><br>');
   }
 
-  // Print a warning about php >= 8.2 because of insufficient testing there.
-  if (version_compare(phpversion(), '8.2', '>=')) {
-    echo('<font color="red">Error: This app was not tested with PHP version: '.phpversion().'.</font><br>');
+  // Print a warning about php >= 8.4 because of insufficient testing there.
+  if (version_compare(phpversion(), '8.4', '>=')) {
+    echo('<font color="red">Warning: This app was not tested with PHP version: '.phpversion().'.</font><br>');
+  }
+  if (version_compare(phpversion(), $required_version, '>=')) {
+    echo('PHP version: '.phpversion().', good enough.<br>');
   } else {
-    if (version_compare(phpversion(), $required_version, '>=')) {
-      echo('PHP version: '.phpversion().', good enough.<br>');
-    } else {
-      echo('<font color="red">Error: PHP version is not high enough: '.phpversion().'. Required: '.$required_version.'.</font><br>');
-    }
+    echo('<font color="red">Error: PHP version is not high enough: '.phpversion().'. Required: '.$required_version.'.</font><br>');
   }
 
-  // Depending on DSN, require either mysqli or mysql extensions.
+  // Require mysqli. The legacy mysql:// DSN is no longer supported.
   if (strrpos(DSN, 'mysqli://', -strlen(DSN)) !== FALSE) {
     if (extension_loaded('mysqli')) {
       echo('mysqli PHP extension is loaded.<br>');
     } else {
       echo('<font color="red">Error: mysqli PHP extension is required but is not loaded.</font><br>');
     }
-  }
-  if (strrpos(DSN, 'mysql://', -strlen(DSN)) !== FALSE) {
-    if (extension_loaded('mysql')) {
-      echo('mysql PHP extension is loaded.<br>');
-    } else {
-      echo('<font color="red">Error: mysql PHP extension is required but is not loaded.</font><br>');
-    }
+  } elseif (strrpos(DSN, 'mysql://', -strlen(DSN)) !== FALSE) {
+    echo('<font color="red">Error: DSN scheme mysql:// is no longer supported. Use mysqli://.</font><br>');
+  } else {
+    echo('<font color="red">Error: DSN must start with mysqli://.</font><br>');
   }
 
   // Check mbstring extension.
@@ -154,8 +150,8 @@ if ($request->isGet()) {
   }
 
   // Check database access.
-  require_once('MDB2.php');
-  $conn = MDB2::connect(DSN);
+  require_once(dirname(__FILE__).'/WEB-INF/lib/TtDb.class.php');
+  $conn = TtDb::connect(DSN);
   if (!is_a($conn, 'MDB2_Error')) {
     echo('Connection to database successful.<br>');
   } else {

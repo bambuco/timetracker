@@ -84,9 +84,9 @@ function import($class_name) {
 	function &getConnection() {
         if (!isset($GLOBALS["_MDB2_CONNECTION"])) {
 
-        	require_once('MDB2.php');
+        	require_once(dirname(__FILE__).'/TtDb.class.php');
 
-        	$mdb2 = MDB2::connect(DSN);
+        	$mdb2 = TtDb::connect(DSN);
 			if (is_a($mdb2, 'PEAR_Error')) {
     			die($mdb2->getMessage());
 			}

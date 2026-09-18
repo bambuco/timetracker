@@ -39,12 +39,13 @@ if (!defined("DSN")) {
   die ("DSN value is not defined. Check your config.php file.");
 }
 
-// Depending on DSN, require either mysqli or mysql extensions.
+// Require mysqli. The legacy mysql:// DSN (removed PHP mysql extension) is no longer supported.
 if (strrpos(DSN, 'mysqli://', -strlen(DSN)) !== FALSE) {
   check_extension('mysqli'); // DSN starts with mysqli:// - require mysqli extension.
-}
-if (strrpos(DSN, 'mysql://', -strlen(DSN)) !== FALSE) {
-  check_extension('mysql');  // DSN starts with mysql:// - require mysql extension.
+} elseif (strrpos(DSN, 'mysql://', -strlen(DSN)) !== FALSE) {
+  die("DSN scheme 'mysql://' is no longer supported. Use 'mysqli://' in WEB-INF/config.php.");
+} else {
+  die("DSN must start with mysqli://. Check your WEB-INF/config.php.");
 }
 
 // Require other extensions.
