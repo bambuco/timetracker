@@ -1,5 +1,9 @@
 # Anuko Time Tracker
 
+I will support Timetracking as long as possible, in Nik's memory. However, this is a fork, unofficial but with the best of intentions.
+
+The official documentation, example site, and other resources will remain in this documentation as long as they are available.
+
 ## About
 Anuko [Time Tracker](https://www.anuko.com/time-tracker/index.htm) is an open source, web-based time tracking application written in PHP. It allows you to track the time that employees or colleagues spend working on projects and tasks. It needs a web server such as Apache, IIS, etc. to run on, and a database to keep the data in, such as MySQL.
 
@@ -11,6 +15,6 @@ December 28, 2023: Nik Okuntseff, the owner and lead software developer at Anuko
 
 ## Resources
 * Project home page: https://www.anuko.com/time-tracker/index.htm
-* Forum: https://www.anuko.com/forum/viewforum.php?f=4
 * Info for developers: https://www.anuko.com/time-tracker/info-for-developers.htm
 * How to contribute: https://www.anuko.com/time-tracker/contribute.htm
+* Support: https://github.com/bambuco/timetracker/issues
